@@ -10,7 +10,7 @@ public class LoadProducts {
 
     public List<Product> stockUpCoffeeShopInventory() {
         List<Product> availableProductList = addProducts();
-        System.out.println("Charlene's Coffee Corner MENU:");
+        System.out.println("OUR MENU:");
         availableProductList.forEach(System.out::println);
 
         return availableProductList;
