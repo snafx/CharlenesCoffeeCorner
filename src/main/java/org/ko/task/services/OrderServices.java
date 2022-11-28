@@ -11,7 +11,6 @@ import java.util.List;
 
 public class OrderServices {
 
-
     public static final String EMPTY_LINE = new String(new char[100]).replace('\0', '-');
     public static final String DEFAULT_FORMAT = "|%-36s %-24s %-36s|%n";
     private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -36,7 +35,7 @@ public class OrderServices {
         return order;
     }
 
-    private String getOrderDateAndTime() {
+    String getOrderDateAndTime() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
@@ -112,7 +111,7 @@ public class OrderServices {
         return order.getTotalOrderValue();
     }
 
-    private void checkIfEligibleForFreeBeverage(Order order) {
+    public void checkIfEligibleForFreeBeverage(Order order) {
         while (order.getLoyaltyStampProgram().getStamps() > 5) {
             calculateDiscount(order);
         }
