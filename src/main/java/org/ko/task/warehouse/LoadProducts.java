@@ -1,5 +1,6 @@
 package org.ko.task.warehouse;
 
+import org.ko.task.model.OrderItem;
 import org.ko.task.model.Product;
 import org.ko.task.model.ProductType;
 
@@ -75,5 +76,25 @@ public class LoadProducts {
         productList.add(product8);
 
         return productList;
+    }
+
+    public List<OrderItem> listOfProductsToOrder(List<Product> availableProductList) {
+        List<OrderItem> orderItemList = new ArrayList<>();
+        orderItemList.add(new OrderItem(1, availableProductList.get(2), availableProductList.get(5)));
+        orderItemList.add(new OrderItem(1, availableProductList.get(0), availableProductList.get(7)));
+        orderItemList.add(new OrderItem(1, availableProductList.get(4), null));
+        orderItemList.add(new OrderItem(1, availableProductList.get(3), null));
+
+        return orderItemList;
+    }
+
+    public List<OrderItem> addMoreOrderItems(List<Product> availableProductList) {
+        List<OrderItem> orderItemList = new ArrayList<>();
+        orderItemList.add(new OrderItem(1, availableProductList.get(1), availableProductList.get(7)));
+        orderItemList.add(new OrderItem(2, availableProductList.get(3), null));
+        orderItemList.add(new OrderItem(3, availableProductList.get(0), null));
+        orderItemList.add(new OrderItem(3, availableProductList.get(4), null));
+
+        return orderItemList;
     }
 }

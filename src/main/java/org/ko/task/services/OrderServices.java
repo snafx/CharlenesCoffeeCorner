@@ -1,6 +1,9 @@
 package org.ko.task.services;
 
-import org.ko.task.model.*;
+import org.ko.task.model.LoyaltyStampProgram;
+import org.ko.task.model.Order;
+import org.ko.task.model.OrderItem;
+import org.ko.task.model.ProductType;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -16,17 +19,15 @@ public class OrderServices {
     private static final DecimalFormat df = new DecimalFormat("0.00");
     List<OrderItem> orderedProducts = new ArrayList<>();
 
-    public Order createOrder(List<Product> availableProductList) {
-        System.out.println("\nPLACED ORDER RECEIPT:\n");
+
+    public Order createOrder(List<OrderItem> orderItemList) {
+        System.out.println("CUSTOMER RECEIPT:\n");
 
         Order order = new Order();
         order.setOrderId(1);
         order.setOrderDate(getOrderDateAndTime());
 
-        addProductToOrder(new OrderItem(1, availableProductList.get(2), availableProductList.get(5)));
-        addProductToOrder(new OrderItem(1, availableProductList.get(0), availableProductList.get(7)));
-        addProductToOrder(new OrderItem(1, availableProductList.get(4), null));
-        addProductToOrder(new OrderItem(1, availableProductList.get(3), null));
+        orderItemList.forEach(orderItem -> addProductToOrder(new OrderItem(orderItem.getQuantity(), orderItem.getProduct(), orderItem.getProductExtra())));
 
         order.setOrderItemsList(orderedProducts);
         updateLoyaltyStampProgram(order, orderedProducts);
