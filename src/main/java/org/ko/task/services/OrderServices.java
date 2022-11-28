@@ -31,6 +31,7 @@ public class OrderServices {
 
         order.setOrderItemsList(orderedProducts);
         updateLoyaltyStampProgram(order, orderedProducts);
+        printOrder(order);
 
         return order;
     }
@@ -45,7 +46,7 @@ public class OrderServices {
         orderedProducts.add(orderItem);
     }
 
-    private void updateLoyaltyStampProgram(Order order1, List<OrderItem> orderedProducts) {
+    public void updateLoyaltyStampProgram(Order order, List<OrderItem> orderedProducts) {
         LoyaltyStampProgram loyaltyStampProgram = new LoyaltyStampProgram();
         loyaltyStampProgram.setCustomerId("1");
         orderedProducts.forEach(product -> {
@@ -54,7 +55,7 @@ public class OrderServices {
                 loyaltyStampProgram.setStamps(loyaltyStampProgram.getStamps() + product.getQuantity());
             }
         });
-        order1.setLoyaltyStampProgram(loyaltyStampProgram);
+        order.setLoyaltyStampProgram(loyaltyStampProgram);
     }
 
     public void printOrder(Order order) {
@@ -95,7 +96,7 @@ public class OrderServices {
         System.out.println(EMPTY_LINE);
     }
 
-    private Double calculateTotalBillCost(Order order) {
+    public Double calculateTotalBillCost(Order order) {
         order.getOrderItemsList().forEach(orderedProduct -> {
             double productPrice = orderedProduct.getProduct().getProductPrice();
             double productExtraPrice = orderedProduct.getProductExtra() != null ? orderedProduct.getProductExtra().getProductPrice() : 0.0;

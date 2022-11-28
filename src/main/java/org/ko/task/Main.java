@@ -1,6 +1,5 @@
 package org.ko.task;
 
-import org.ko.task.model.Order;
 import org.ko.task.model.Product;
 import org.ko.task.services.OrderServices;
 import org.ko.task.warehouse.LoadProducts;
@@ -19,9 +18,8 @@ public class Main {
         List<Product> availableProductList = loadProducts.stockUpCoffeeShopInventory();
 
         OrderServices orderServices = new OrderServices();
-        Order order = orderServices.createOrder(availableProductList);
+        orderServices.createOrder(availableProductList);
 
-        orderServices.printOrder(order);
         System.out.println(GOODBYE_MSG);
 
     }
