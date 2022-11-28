@@ -77,7 +77,13 @@ public class Order {
         System.out.println(EMPTY_LINE);
         System.out.printf("|%78s | %-16s |%n", "", "TOTAL: CHF " + df.format(calculateTotalBillCost(orderItemsList)));
         System.out.println(EMPTY_LINE);
+        System.out.println(EMPTY_LINE);
+        System.out.printf(DEFAULT_FORMAT, "", "", "");
         System.out.printf("|%69s | %-16s |%n", "", "Loyalty program stamps: " + loyaltyStampProgram.getStamps());
+        if (loyaltyStampProgram.getStamps() == 5) {
+            System.out.printf("|%45s | %-16s |%n", "", "You have 5 stamps! You next beverage is for free!");
+            System.out.printf(DEFAULT_FORMAT, "", "", "");
+        }
         System.out.println(EMPTY_LINE);
         System.out.printf(DEFAULT_FORMAT, "", "", "");
         System.out.printf(DEFAULT_FORMAT, "", "", "");
@@ -98,24 +104,31 @@ public class Order {
         checkIfEligibleForComboMealDeal(orderedProducts);
         checkIfEligibleForFreeBeverage(loyaltyStampProgram, orderedProducts);
 
+        System.out.println(EMPTY_LINE);
+        System.out.printf(DEFAULT_FORMAT, "", "", "");
         return totalOrderValue;
     }
 
     private void checkIfEligibleForFreeBeverage(LoyaltyStampProgram loyaltyStampProgram, List<OrderItem> orderedProducts) {
-        if (loyaltyStampProgram.getStamps() > 5) {
-            OrderItem cheapestBeverage = orderedProducts.stream()
-                    .filter(orderItem -> orderItem.getProduct().getProductType().equals(ProductType.BEVERAGE))
-                    .min(Comparator.comparingDouble(product -> product.getProduct().getProductPrice()))
-                    .orElse(null);
-            if (cheapestBeverage != null) {
-                System.out.printf("|%54s | %-16s |%n", "", "Loyalty program free beverage: CHF -" + df.format(cheapestBeverage.getProduct().getProductPrice()));
-                totalOrderValue -= cheapestBeverage.getProduct().getProductPrice();
-                System.out.printf("|%75s | %-16s %-2s |%n", "", "Stamps before: ", loyaltyStampProgram.getStamps());
-                loyaltyStampProgram.setStamps(loyaltyStampProgram.getStamps() - 5);
-                System.out.printf("|%75s | %-16s %-2s |%n", "", "Stamps left: ", loyaltyStampProgram.getStamps());
-            }
+        while (loyaltyStampProgram.getStamps() > 5) {
+            calculateDiscount(loyaltyStampProgram, orderedProducts);
         }
+    }
 
+    private void calculateDiscount(LoyaltyStampProgram loyaltyStampProgram, List<OrderItem> orderedProducts) {
+        OrderItem cheapestBeverage = orderedProducts.stream()
+                .filter(orderItem -> orderItem.getProduct().getProductType().equals(ProductType.BEVERAGE))
+                .min(Comparator.comparingDouble(product -> product.getProduct().getProductPrice()))
+                .orElse(null);
+        if (cheapestBeverage != null) {
+
+            System.out.println(EMPTY_LINE);
+            totalOrderValue -= cheapestBeverage.getProduct().getProductPrice();
+            System.out.printf("|%75s | %-16s %-2s |%n", "", "Stamps before: ", loyaltyStampProgram.getStamps());
+            System.out.printf("|%54s | %-16s |%n", "", "Loyalty program free beverage: CHF -" + df.format(cheapestBeverage.getProduct().getProductPrice()));
+            loyaltyStampProgram.setStamps(loyaltyStampProgram.getStamps() - 5);
+            System.out.printf("|%75s | %-16s %-2s |%n", "", "Stamps left: ", loyaltyStampProgram.getStamps());
+        }
     }
 
     private void checkIfEligibleForComboMealDeal(List<OrderItem> orderedProducts) {

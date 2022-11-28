@@ -28,10 +28,7 @@ public class LoadProducts {
         List<OrderItem> orderedProducts = new ArrayList<>();
         orderedProducts.add(new OrderItem(1, availableProductList.get(2), availableProductList.get(5)));
         orderedProducts.add(new OrderItem(1, availableProductList.get(0), availableProductList.get(7)));
-        orderedProducts.add(new OrderItem(1, availableProductList.get(0), availableProductList.get(7)));
         orderedProducts.add(new OrderItem(1, availableProductList.get(4), null));
-        orderedProducts.add(new OrderItem(1, availableProductList.get(3), null));
-        orderedProducts.add(new OrderItem(1, availableProductList.get(3), null));
         orderedProducts.add(new OrderItem(1, availableProductList.get(3), null));
         order1.setOrderItemsList(orderedProducts);
 
